@@ -1,0 +1,130 @@
+﻿
+/*
+
+CREATE DATABASE Laba_10
+GO
+
+
+USE Laba_10
+GO
+
+*/
+
+
+/* =============================================== */
+
+
+CREATE TABLE Student
+(
+	StudID INT NOT NULL,
+	Groupid INT NOT NULL,
+	FirstName NVARCHAR(30) NOT NULL,
+	LastName NVARCHAR(30) NOT NULL,
+	DateOfBirth DATE NOT NULL,
+
+	PRIMARY KEY (StudID)
+);
+GO
+
+CREATE TABLE Learn
+(
+	PredmetID INT NOT NULL,
+	TeacherName NVARCHAR(50) NOT NULL,
+	HoursCount INT NOT NULL,
+
+	PRIMARY KEY (PredmetID)
+);
+GO
+
+CREATE TABLE SubjectSuccess
+(
+	StudID INT NOT NULL,
+	PredmetID INT NOT NULL,
+	Rating INT NULL,
+
+	PRIMARY KEY (StudID, PredmetID)
+);
+GO
+
+
+/* =============================================== */
+
+
+ALTER TABLE SubjectSuccess
+	ADD CONSTRAINT [CK_SubjectSuccess_Rating] CHECK ((Rating>=(1) AND Rating<=(5))),
+	CONSTRAINT FK_SubjectSuccess_To_Student FOREIGN KEY([StudID]) REFERENCES Student ([StudID]) ON DELETE CASCADE,
+	CONSTRAINT FK_SubjectSuccess_To_Learn FOREIGN KEY(PredmetID) REFERENCES Learn (PredmetID) ON DELETE CASCADE
+GO
+
+
+/* =============================================== */
+
+
+INSERT INTO Learn
+	VALUES	(1001, 'Клемен Володимир Степанович',	120),
+			(1002, 'Ткачук Лідія Володимирівна',	180),
+			(1003, 'Волинь Дмитро Іванович',		240),
+			(1004, 'Кручицька Єлизавета Степанович', 80),
+			(1005, 'Ігнатенко Віктор Степанович',	290),
+			(1006, 'Пташка Андрій Васильович',		300),
+			(1007, 'Бігунова Світлана Миколаївна',	140),
+			(1008, 'Тоненчук Анастасія Дмитрівна',	380),
+			(1009, 'Світлий Валентин Ігорович',		170),
+			(1010, 'Тараненко Світлана Юріївна',	340);
+GO
+
+/*
+SELECT * FROM Learn
+GO
+*/
+
+INSERT INTO Student
+	VALUES	(10001, 120, 'Сніжана',		'Немірова',		'2003/02/02'),
+			(10002, 144, 'Кирил',		'Арнаутов',		'2004/04/15'),
+			(10003, 143, 'Нестор',		'Кришко',		'2004/10/29'),
+			(10004, 120, 'Тетяна',		'Колчанова',	'2002/08/16'),
+			(10005, 122, 'Марія',		'Задорожна',	'2004/05/08'),
+			(10006, 141, 'Павло',		'Іванов',		'2003/04/10'),
+			(10007, 144, 'Владислав',	'Яремак',		'2003/12/28'),
+			(10008, 141, 'Марина',		'Сиримак',		'2004/07/19'),
+			(10009, 122, 'Олександр',	'Андрищак',		'2004/03/18'),
+			(10010, 121, 'Віталій',		'Веркаш',		'2003/07/01'),
+			(10011, 120, 'Юлія',		'Панчук',		'2004/10/15');
+GO
+
+/*
+SELECT * FROM Student
+GO
+*/
+
+
+INSERT INTO SubjectSuccess
+	VALUES	(10001, 1007, 2),
+			(10003, 1009, 5),
+			(10010, 1010, 3),
+			(10008, 1003, 4),
+			(10011, 1008, NULL),
+			(10008, 1001, 5),
+			(10009, 1007, 2),
+			(10004, 1002, NULL),
+			(10005, 1005, 4),
+			(10007, 1001, 3);
+GO
+
+/*
+SELECT * FROM SubjectSuccess
+GO
+*/
+
+
+/* =============================================== */
+
+/*
+
+DROP TABLE SubjectSuccess
+DROP TABLE Student
+DROP TABLE Learn
+GO
+
+*/
+
